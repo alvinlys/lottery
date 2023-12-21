@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: lottery888
+      POSTGRES_PASSWORD: lottery888
+      POSTGRES_DB: lottery
+
+  # login to server: postgres
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: always
+    ports:
+      - 5433:8080

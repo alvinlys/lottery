@@ -23,6 +23,6 @@
     "allowUnreachableCode": false,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
-    "exactOptionalPropertyTypes": false
+    "exactOptionalPropertyTypes": true
   }
 }
