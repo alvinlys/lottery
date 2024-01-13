@@ -1,31 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { queryDrawDatesDto } from './dto';
-import { Prisma } from '@prisma/client';
+import { DrawDate, Prisma } from '@prisma/client';
+import { drawDatesDto } from './dto';
 
 @Injectable()
 export class DrawDatesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll({ year }: queryDrawDatesDto): Promise<string[]> {
-    const where: Prisma.DrawDateWhereInput = {};
+  async findAll({ year, day }: drawDatesDto): Promise<Partial<DrawDate>[]> {
+    const drawDateWhereInput: Prisma.DrawDateWhereInput = {};
 
     if (year) {
-      where.date = {
+      drawDateWhereInput.date = {
         gte: new Date(`${year}-01-01`),
         lte: new Date(`${year}-12-31`),
       };
     }
+    if (day) {
+      drawDateWhereInput.day = day;
+    }
 
-    const drawDates = await this.prisma.drawDate.findMany({
+    const res = await this.prisma.drawDate.findMany({
       select: {
+        day: true,
         date: true,
       },
-      where,
+      where: drawDateWhereInput,
     });
-
-    return drawDates!.map((drawDate) =>
-      drawDate.date.toISOString().slice(0, 10),
-    );
+    console.log(res);
+    return res;
   }
 }

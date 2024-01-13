@@ -6,7 +6,7 @@ export class CompaniesController {
   constructor(private companiesService: CompaniesService) {}
 
   @Get()
-  findAll() {
+  findAll(): Promise<string[]> {
     return this.companiesService.findAll();
   }
 }

@@ -19,6 +19,7 @@ model Company {
 
 model DrawDate {
     id   Int      @id @default(autoincrement())
+    day  Int      @db.SmallInt
     date DateTime @db.Date
 
     @@index([date])

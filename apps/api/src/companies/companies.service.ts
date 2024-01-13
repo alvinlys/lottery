@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class CompaniesService {
   //   constructor(private prisma: PrismaService) {}
-  findAll() {
+  async findAll(): Promise<string[]> {
     return [];
   }
 }

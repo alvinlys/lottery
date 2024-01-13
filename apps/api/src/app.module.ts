@@ -4,18 +4,20 @@ import { CompaniesModule } from './companies/companies.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './env.validation';
+import { RouterModule } from '@nestjs/core';
+import { routes } from './routes';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      cache: true,
       isGlobal: true,
       validate,
     }),
+    PrismaModule,
     DrawDatesModule,
     CompaniesModule,
-    PrismaModule,
+    RouterModule.register(routes),
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
