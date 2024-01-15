@@ -20,14 +20,12 @@ export class DrawDatesService {
       drawDateWhereInput.day = day;
     }
 
-    const res = await this.prisma.drawDate.findMany({
+    return await this.prisma.drawDate.findMany({
       select: {
         day: true,
         date: true,
       },
       where: drawDateWhereInput,
     });
-    console.log(res);
-    return res;
   }
 }

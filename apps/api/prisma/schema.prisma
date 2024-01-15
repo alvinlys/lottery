@@ -11,17 +11,20 @@ datasource db {
 }
 
 model Company {
-    id   Int    @id @default(autoincrement())
-    name String
+    id      Int      @id @default(autoincrement())
+    name    String
+    results Result[]
 
     @@map("companies")
 }
 
-model DrawDate {
-    id   Int      @id @default(autoincrement())
-    day  Int      @db.SmallInt
-    date DateTime @db.Date
+model Result {
+    id         Int      @id @default(autoincrement())
+    companyId  Int
+    company    Company  @relation(fields: [companyId], references: [id])
+    date       DateTime @db.Date
+    drawNumber String   @map("draw_number") // 5746/24
+    result     String[] // prize (3), special (10), consolation (10)
 
-    @@index([date])
-    @@map("draw_dates")
+    @@map("results")
 }
