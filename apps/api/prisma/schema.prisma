@@ -12,7 +12,8 @@ datasource db {
 
 model Company {
     id      Int      @id @default(autoincrement())
-    name    String
+    code    String   @unique
+    name    String   @unique
     results Result[]
 
     @@map("companies")

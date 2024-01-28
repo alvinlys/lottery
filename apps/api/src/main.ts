@@ -1,13 +1,13 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import metadata from './metadata';
+import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
+import { ConfigService } from '@nestjs/config';
+import { Swagger } from './swagger';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -15,23 +15,16 @@ async function bootstrap(): Promise<void> {
     new FastifyAdapter(),
   );
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true })); // allow validation at all routes
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.enableCors({
     methods: ['GET', 'POST', 'PUT', 'PATCH'],
   });
-
-  // Swagger OpenAPI docs
-  const config = new DocumentBuilder()
-    .setTitle('Lottery')
-    .setVersion('1.0')
-    .build();
-  await SwaggerModule.loadPluginMetadata(metadata);
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  const port: number = app.get(ConfigService).get('PORT')!;
 
-  await app.listen(3300);
+  await new Swagger().init(app, port);
+  await app.listen(port);
 }
 
 bootstrap();

@@ -5,7 +5,7 @@ import { drawDatesDto } from './dto';
 
 @Injectable()
 export class DrawDatesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll({ year }: drawDatesDto): Promise<Partial<Result>[]> {
     const drawDateWhereInput: Prisma.ResultWhereInput = {};

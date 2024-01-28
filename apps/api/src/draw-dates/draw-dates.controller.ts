@@ -5,10 +5,10 @@ import { Result } from '@prisma/client';
 import { DrawDateEntity } from './entities/draw-dates.entity';
 import { drawDatesDto } from './dto';
 
-@Controller('draw-dates')
 @ApiTags('draw-dates')
+@Controller('draw-dates')
 export class DrawDatesController {
-  constructor(private drawDatesService: DrawDatesService) {}
+  constructor(private readonly drawDatesService: DrawDatesService) {}
 
   @Get()
   @ApiOkResponse({ type: DrawDateEntity, isArray: true })
