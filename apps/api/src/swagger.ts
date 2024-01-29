@@ -6,12 +6,14 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 // Swagger OpenAPI docs
 export class Swagger {
   async init(app: NestFastifyApplication, port: number): Promise<void> {
+    // CLI plugin (before SwaggerModule.createDocument)
+    await SwaggerModule.loadPluginMetadata(metadata);
+
     const env: string = app.get(ConfigService).get('NODE_ENV')!;
     let config = new DocumentBuilder().setTitle('Lottery').setVersion('1.0');
     if (env === 'development') {
       config = config.addServer(`http://localhost:${port}/public`);
     }
-
     const document = SwaggerModule.createDocument(app, config.build());
     SwaggerModule.setup('public', app, document, {
       customSiteTitle: 'Lottery API',
@@ -26,8 +28,5 @@ export class Swagger {
         return document;
       },
     });
-
-    // CLI plugin
-    await SwaggerModule.loadPluginMetadata(metadata);
   }
 }

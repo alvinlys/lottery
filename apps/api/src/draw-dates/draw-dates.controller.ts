@@ -12,7 +12,8 @@ export class DrawDatesController {
 
   @Get()
   @ApiOkResponse({ type: DrawDateEntity, isArray: true })
-  findAll(@Query() query: drawDatesDto): Promise<Partial<Result>[]> {
-    return this.drawDatesService.findAll(query);
+  async findAll(@Query() query: drawDatesDto): Promise<Partial<Result>[]> {
+    const drawDates = await this.drawDatesService.findAll(query);
+    return drawDates.map((drawDate) => new DrawDateEntity(drawDate));
   }
 }

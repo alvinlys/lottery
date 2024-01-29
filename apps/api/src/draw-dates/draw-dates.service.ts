@@ -7,21 +7,22 @@ import { drawDatesDto } from './dto';
 export class DrawDatesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll({ year }: drawDatesDto): Promise<Partial<Result>[]> {
-    const drawDateWhereInput: Prisma.ResultWhereInput = {};
+  findAll({ year }: drawDatesDto): Promise<Partial<Result>[]> {
+    const where: Prisma.ResultWhereInput = {};
 
     if (year) {
-      drawDateWhereInput.date = {
+      where.date = {
         gte: new Date(`${year}-01-01`),
         lte: new Date(`${year}-12-31`),
       };
     }
 
-    return await this.prisma.result.findMany({
+    return this.prisma.result.findMany({
       select: {
         date: true,
       },
-      where: drawDateWhereInput,
+      where,
+      distinct: ['date'],
     });
   }
 }

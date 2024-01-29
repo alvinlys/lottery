@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { validate } from './env.validation';
 import { RouterModule } from '@nestjs/core';
 import { routes } from './routes';
+import { ResultsModule } from './results/results.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { routes } from './routes';
     DrawDatesModule,
     CompaniesModule,
     RouterModule.register(routes),
+    ResultsModule,
   ],
 })
 export class AppModule {}
