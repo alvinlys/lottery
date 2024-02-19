@@ -1,8 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { DrawDatesService } from './draw-dates.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
-import { Result } from '@prisma/client';
-import { DrawDateEntity } from './entities/draw-dates.entity';
 import { drawDatesDto } from './dto';
 
 @ApiTags('draw-dates')
@@ -11,9 +9,20 @@ export class DrawDatesController {
   constructor(private readonly drawDatesService: DrawDatesService) {}
 
   @Get()
-  @ApiOkResponse({ type: DrawDateEntity, isArray: true })
-  async findAll(@Query() query: drawDatesDto): Promise<Partial<Result>[]> {
+  @ApiOkResponse({
+    schema: {
+      type: 'array',
+      items: {
+        type: 'string',
+        format: 'date',
+      },
+      example: ['2021-01-01', '2021-01-02'],
+    },
+  })
+  async findAll(@Query() query: drawDatesDto): Promise<string[]> {
     const drawDates = await this.drawDatesService.findAll(query);
-    return drawDates.map((drawDate) => new DrawDateEntity(drawDate));
+    return drawDates.map(({ date }) =>
+      (<Date>date).toISOString().substring(0, 10),
+    );
   }
 }

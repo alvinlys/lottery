@@ -7,15 +7,22 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ResultsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll({ date }: resultsDto): Promise<Result[]> {
-    const where: Prisma.ResultWhereInput = {};
+  findAll({ date, companyCode }: resultsDto): Promise<Result[]> {
+    const where: Prisma.ResultWhereInput = {
+      date: new Date(date),
+    };
 
-    if (date) {
-      where.date = new Date(date);
+    if (companyCode) {
+      where.company = {
+        code: companyCode,
+      };
     }
 
     return this.prisma.result.findMany({
       where,
+      include: {
+        company: true,
+      },
     });
   }
 }
