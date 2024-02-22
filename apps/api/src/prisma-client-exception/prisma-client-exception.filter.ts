@@ -3,15 +3,9 @@ import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 import { FastifyReply } from 'fastify';
 
-@Catch(
-  Prisma.PrismaClientKnownRequestError,
-  Prisma.PrismaClientUnknownRequestError,
-)
+@Catch(Prisma.PrismaClientKnownRequestError, Prisma.PrismaClientUnknownRequestError)
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
-  override catch(
-    exception: Prisma.PrismaClientKnownRequestError,
-    host: ArgumentsHost,
-  ): void {
+  override catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<FastifyReply>();
     const message = exception.message;

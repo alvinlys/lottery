@@ -1,7 +1,9 @@
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import metadata from './metadata';
+import metadata from '../../metadata';
 import { ConfigService } from '@nestjs/config';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { PathItemObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import { EnvironmentVariables } from '../config';
 
 // Swagger OpenAPI docs
 export class Swagger {
@@ -9,7 +11,7 @@ export class Swagger {
     // CLI plugin (before SwaggerModule.createDocument)
     await SwaggerModule.loadPluginMetadata(metadata);
 
-    const env: string = app.get(ConfigService).get('NODE_ENV')!;
+    const env = <EnvironmentVariables['NODE_ENV']>app.get(ConfigService).get('NODE_ENV');
     let config = new DocumentBuilder().setTitle('Lottery').setVersion('1.0');
     if (env === 'development') {
       config = config.addServer(`http://localhost:${port}/public`);
@@ -21,7 +23,7 @@ export class Swagger {
         for (const key in document.paths) {
           if (document.paths[key] && key.includes('/public')) {
             const newKey = key.replace('/public', '');
-            document.paths[newKey] = document.paths[key]!;
+            document.paths[newKey] = <PathItemObject>document.paths[key];
             delete document.paths[key];
           }
         }

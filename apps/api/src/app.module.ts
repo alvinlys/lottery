@@ -3,7 +3,7 @@ import { DrawDatesModule } from './draw-dates/draw-dates.module';
 import { CompaniesModule } from './companies/companies.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
-import { validate } from './env.validation';
+import { validate } from './common/config/env.validation';
 import { RouterModule } from '@nestjs/core';
 import { routes } from './routes';
 import { ResultsModule } from './results/results.module';
