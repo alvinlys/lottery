@@ -1,9 +1,4 @@
-import {
-  IsNumberString,
-  IsNotEmpty,
-  IsOptional,
-  MaxLength,
-} from 'class-validator';
+import { IsNumberString, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 
 export class drawDatesDto {
   @IsNotEmpty()

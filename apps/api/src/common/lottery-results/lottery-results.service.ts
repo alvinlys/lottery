@@ -13,9 +13,7 @@ export class LotteryResultsService {
 
   async getResults(): Promise<string> {
     const { data }: { data: string } = await firstValueFrom(
-      this.httpService.post(
-        <string>this.configService.get<EnvironmentVariables['LOTTERY_URL']>('LOTTERY_URL'),
-      ),
+      this.httpService.post(<string>this.configService.get<EnvironmentVariables['LOTTERY_URL']>('LOTTERY_URL')),
     );
     return data;
   }

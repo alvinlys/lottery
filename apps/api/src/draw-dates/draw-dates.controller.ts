@@ -21,8 +21,6 @@ export class DrawDatesController {
   })
   async findAll(@Query() query: drawDatesDto): Promise<string[]> {
     const drawDates = await this.drawDatesService.findAll(query);
-    return drawDates.map(({ date }) =>
-      (<Date>date).toISOString().substring(0, 10),
-    );
+    return drawDates.map(({ date }) => (<Date>date).toISOString().substring(0, 10));
   }
 }

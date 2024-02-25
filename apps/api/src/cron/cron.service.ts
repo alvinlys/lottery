@@ -21,7 +21,8 @@ export class CronService {
   async lotteryResults(): Promise<void> {
     this.logger.log('start lotteryResults');
 
-    type Company = keyof typeof companyIds;
+    // follow cron timezone
+    const date = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
     const companyIds = { 'Magnum 4D': 2, 'Da Ma Cai 1+3D': 1, 'SportsToto 4D': 3 };
     const html = await this.lotteryResultsService.getResults();
     const $ = cheerio.load(html, { xml: true });
@@ -32,8 +33,9 @@ export class CronService {
 
     if (tables.length !== 3) return;
     // results might not be the latest date
-    if (!tables[0]?.attribs['id']?.includes(new Date().toISOString().substring(0, 10))) return;
+    if (!tables[0]?.attribs['id']?.includes(date.toISOString().substring(0, 10))) return;
 
+    type Company = keyof typeof companyIds;
     const results: Result[] = [];
     tables.each((_i, el) => {
       const name = $(el).find('.lottery-name').text().trim();
@@ -67,7 +69,7 @@ export class CronService {
 
       results.push({
         companyId: <number>companyId,
-        date: new Date(),
+        date,
         drawNumber,
         result: { t: top, s: special, c: consolation },
       });
