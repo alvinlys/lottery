@@ -1,28 +1,12 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2022",
+    "target": "ES2021",
     "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "strict": true,
-    "incremental": true,
-    "skipLibCheck": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowUnusedLabels": false,
-    "allowUnreachableCode": false,
-    "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "exactOptionalPropertyTypes": true
+    "outDir": "./dist"
   }
 }
