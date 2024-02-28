@@ -7,9 +7,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: lottery888
-      POSTGRES_PASSWORD: lottery888
-      POSTGRES_DB: lottery
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
 
   # login to server: postgres
   adminer:
@@ -18,3 +18,25 @@ services:
     restart: always
     ports:
       - 5433:8080
+    depends_on:
+      - postgres
+    links:
+      - postgres
+
+  api:
+    container_name: api
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
+      - DATABASE_URL=${DATABASE_URL}
+      - LOTTERY_URL=${LOTTERY_URL}
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+    links:
+      - postgres

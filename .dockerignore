@@ -1,0 +1,7 @@
+.history
+.git
+.gitignore
+node_modules
+dist
+.vscode
+*.local.*

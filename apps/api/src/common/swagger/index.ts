@@ -15,6 +15,8 @@ export class Swagger {
     let config = new DocumentBuilder().setTitle('Lottery').setVersion('1.0');
     if (env === 'development') {
       config = config.addServer(`http://localhost:${port}/public`);
+    } else {
+      config = config.addServer(`http://localhost:${port}/public`);
     }
     const document = SwaggerModule.createDocument(app, config.build());
     SwaggerModule.setup('public', app, document, {

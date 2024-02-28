@@ -19,7 +19,8 @@ async function bootstrap(): Promise<void> {
   const port = <EnvironmentVariables['PORT']>app.get(ConfigService).get('PORT');
 
   await new Swagger().init(app, port);
-  await app.listen(port);
+  // listen on all network interfaces by fastify
+  await app.listen(port, '0.0.0.0');
 }
 
 bootstrap();

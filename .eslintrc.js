@@ -24,9 +24,5 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   rules: {},
-  settings: {
-    next: {
-      rootDir: 'apps/web/',
-    },
-  },
+  settings: {},
 };

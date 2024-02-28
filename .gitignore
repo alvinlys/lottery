@@ -11,9 +11,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# OS
-.DS_Store
-
 # Tests
 /coverage
 /.nyc_output
@@ -40,3 +37,18 @@ lerna-debug.log*
 
 # environment
 .env
+
+# next.js
+.next
+out
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# misc
+.DS_Store
+*.pem
+
+# production
+build
