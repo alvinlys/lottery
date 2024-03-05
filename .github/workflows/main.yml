@@ -13,11 +13,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@master
+        with:
+          since_last_remote_commit: true
+          separator: ','
+
+      - name: Copy file to server
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ${{ steps.changed-files.outputs.all_changed_files }}
+          target: ${{ secrets.SSH_TARGER_FOLDER }}
+
+      - name: SSH
+        uses: appleboy/ssh-action@master
+        with:
+          command_timeout: 30m
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            ls -al
+            cd lottery && ls -al
