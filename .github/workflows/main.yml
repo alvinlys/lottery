@@ -15,13 +15,13 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@master
+        uses: tj-actions/changed-files@v42.0.5
         with:
           since_last_remote_commit: true
           separator: ','
 
       - name: Copy file to server
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -30,11 +30,11 @@ jobs:
           target: ${{ secrets.SSH_TARGER_FOLDER }}
 
       - name: SSH
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           command_timeout: 30m
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd lottery && ls -al
+            cd ./lottery && ls -al
