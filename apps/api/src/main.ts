@@ -14,10 +14,11 @@ async function bootstrap(): Promise<void> {
   app.enableCors({
     methods: ['GET', 'POST', 'PUT', 'PATCH'],
   });
+
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
-  const port = <EnvironmentVariables['PORT']>app.get(ConfigService).get('PORT');
 
+  const port = <EnvironmentVariables['PORT']>app.get(ConfigService).get('PORT');
   await new Swagger().init(app, port);
   // listen on all network interfaces by fastify
   await app.listen(port, '0.0.0.0');
