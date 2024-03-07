@@ -16,7 +16,7 @@ export class Swagger {
     if (env === 'development') {
       config = config.addServer(`http://localhost:${port}/public`);
     } else {
-      config = config.addServer(`http://localhost:${port}/public`);
+      config = config.addServer(`https://api.luckypick.asia/public`);
     }
     const document = SwaggerModule.createDocument(app, config.build());
     SwaggerModule.setup('public', app, document, {

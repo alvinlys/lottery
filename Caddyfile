@@ -1,0 +1,3 @@
+api.luckypick.asia {
+    reverse_proxy api:3300 
+}
