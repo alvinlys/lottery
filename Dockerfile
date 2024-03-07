@@ -6,7 +6,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-FROM base AS build-api
+FROM base AS api
 COPY . /app
 WORKDIR /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm --filter=api install --frozen-lockfile
@@ -15,10 +15,4 @@ WORKDIR apps/api
 RUN npx prisma generate 
 RUN npx prisma migrate deploy
 RUN pnpm --filter=api run build
-RUN pnpm deploy --filter=api --prod /api
-
-FROM base AS api
-COPY --from=build-api /api /api
-WORKDIR /api
-RUN npx prisma generate
 CMD [ "pnpm", "start:prod" ]
