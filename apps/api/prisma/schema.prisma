@@ -1,34 +1,30 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Company {
-    id      Int      @id @default(autoincrement())
-    code    String   @unique
-    name    String   @unique
-    results Result[]
+  id      Int      @id @default(autoincrement())
+  code    String   @unique
+  name    String   @unique
+  results Result[]
 
-    @@map("companies")
+  @@map("companies")
 }
 
 model Result {
-    id         Int      @id @default(autoincrement())
-    companyId  Int
-    date       DateTime @db.Date
-    drawNumber String   @map("draw_number") // 5746/24, 5747/24
-    result     Json // {"t":[3],"s":[10],"c":[10]}
+  id         Int      @id @default(autoincrement())
+  companyId  Int
+  date       DateTime @db.Date
+  drawNumber String   @map("draw_number")
+  result     Json
+  company    Company  @relation(fields: [companyId], references: [id])
 
-    company Company @relation(fields: [companyId], references: [id])
-
-    @@unique([companyId, date])
-    @@index([companyId, date])
-    @@map("results")
+  @@unique([companyId, date])
+  @@index([companyId, date])
+  @@map("results")
 }
