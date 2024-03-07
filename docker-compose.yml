@@ -1,28 +1,5 @@
 version: '3.8'
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:latest
-    restart: always
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-
-  # login to server: postgres
-  adminer:
-    image: adminer:latest
-    container_name: adminer
-    restart: always
-    ports:
-      - 5433:8080
-    depends_on:
-      - postgres
-    links:
-      - postgres
-
   api:
     container_name: api
     restart: always
@@ -41,7 +18,7 @@ services:
       - 443:443
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
+      - ./caddy_data:/data
+      - ./caddy_config:/config
     depends_on:
       - api
