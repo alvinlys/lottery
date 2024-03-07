@@ -9,6 +9,7 @@ jobs:
   deploy:
     name: Deploy to server
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,6 +17,8 @@ jobs:
       - name: Create .env file
         run: |
           echo "NODE_ENV=${NODE_ENV}" >> .env
+          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
+          echo "NODE_ENV=${{ vars.NODE_ENV }}" >> .env
 
       - name: Sync code to server
         uses: easingthemes/ssh-deploy@v5.0.3
