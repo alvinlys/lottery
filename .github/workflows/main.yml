@@ -15,17 +15,5 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "NODE_ENV=${{ vars.NODE_ENV }}" >> .env
+          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
           cat .env
-
-      - name: Sync code to server
-        uses: easingthemes/ssh-deploy@v5.0.3
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: '-rlgoDzvc -i --delete'
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-          TARGET: ${{ secrets.SSH_TARGER_FOLDER }}
-          SCRIPT_AFTER: |
-            cd ./lottery
-            cat .env
