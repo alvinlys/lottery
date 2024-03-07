@@ -13,19 +13,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - run: cat Dockerfile
+      - name: Create .env file
+        run: printf "${{ secrets.ENV_FILE }}" >> .env
 
-      # - name: Create .env file
-      #   run: printf "${{ secrets.ENV_FILE }}" >> .env
+      - name: Sync code to server
+        uses: easingthemes/ssh-deploy@v5.0.3
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: '-rlgoDzvc -i --delete'
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          TARGET: ${{ secrets.SSH_TARGER_FOLDER }}
 
-      # - name: Sync code to server
-      #   uses: easingthemes/ssh-deploy@v5.0.3
-      #   with:
-      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     ARGS: '-rlgoDzvc -i --delete'
-      #     REMOTE_HOST: ${{ secrets.SSH_HOST }}
-      #     REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-      #     TARGET: ${{ secrets.SSH_TARGER_FOLDER }}
-      #     SCRIPT_AFTER: |
-      #       cd ./lottery
-      #       docker-compose up -d
+      - name: SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          command_timeout: 30m
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ./lottery
+            docker-compose up -d
