@@ -29,10 +29,5 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-    environment:
-      - PORT=${PORT}
-      - NODE_ENV=${NODE_ENV}
-      - DATABASE_URL=${DATABASE_URL}
-      - LOTTERY_URL=${LOTTERY_URL}
     ports:
       - ${PORT}:${PORT}
