@@ -22,6 +22,5 @@ jobs:
           REMOTE_USER: ${{ secrets.SSH_USERNAME }}
           TARGET: ${{ secrets.SSH_TARGER_FOLDER }}
           SCRIPT_AFTER: |
-            ls -al
             cd ./lottery
-            ls -al
+            docker-compose up -d
