@@ -13,21 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v42.0.5
+      - name: Sync code to server
+        uses: easingthemes/ssh-deploy@v5.0.3
         with:
-          since_last_remote_commit: true
-          separator: ','
-
-      - name: Copy file to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ${{ steps.changed-files.outputs.all_changed_files }}
-          target: ${{ secrets.SSH_TARGER_FOLDER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: '-rlgoDzvc -i --delete'
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          TARGET: ${{ secrets.SSH_TARGER_FOLDER }}
 
       - name: SSH
         uses: appleboy/ssh-action@v1.0.3
