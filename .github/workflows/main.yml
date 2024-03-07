@@ -14,11 +14,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create .env file
-        run: |
-          echo "NODE_ENV=${NODE_ENV}" >> .env
-          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
-          echo "NODE_ENV=${{ vars.NODE_ENV }}" >> .env
+      - name: .env file
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_DEBUG: false
+          envkey_SOME_API_KEY: 'SOME_API_KEY'
+          envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
       - name: Sync code to server
         uses: easingthemes/ssh-deploy@v5.0.3
