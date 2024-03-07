@@ -26,3 +26,4 @@ jobs:
           TARGET: ${{ secrets.SSH_TARGER_FOLDER }}
           SCRIPT_AFTER: |
             cd ./lottery
+            docker-compose up -d
