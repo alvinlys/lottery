@@ -36,7 +36,3 @@ services:
       - LOTTERY_URL=${LOTTERY_URL}
     ports:
       - ${PORT}:${PORT}
-    depends_on:
-      - postgres
-    links:
-      - postgres

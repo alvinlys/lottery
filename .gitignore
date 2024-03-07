@@ -36,7 +36,7 @@ lerna-debug.log*
 *.local.*
 
 # environment
-.env
+*.env
 
 # next.js
 .next
