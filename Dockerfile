@@ -10,6 +10,7 @@ FROM base AS api
 COPY . /app
 WORKDIR /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm --filter=api install --frozen-lockfile
+ADD .env apps/api/.env
 WORKDIR apps/api
 RUN npx prisma generate 
 RUN npx prisma migrate deploy
