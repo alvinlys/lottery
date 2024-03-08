@@ -8,6 +8,8 @@ services:
       context: .
     ports:
       - ${PORT}:${PORT}
+    expose:
+      - ${PORT}
 
   caddy:
     container_name: caddy
