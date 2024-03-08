@@ -1,3 +1,7 @@
-api.luckypick.asia {
+api.luckypick.asia:80 {
+    reverse_proxy api:3300 
+}
+
+api.luckypick.asia:443 {
     reverse_proxy api:3300 
 }
