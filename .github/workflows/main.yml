@@ -33,4 +33,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ./lottery
-            docker-compose up -d --build api caddy
+            docker-compose up -d --build
