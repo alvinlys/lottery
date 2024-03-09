@@ -1,3 +1,9 @@
 public.luckypick.asia:80 {
-    reverse_proxy localhost:3300/public
+	handle /ping {
+		respond 200
+	}
+	handle_path /* {
+		rewrite * /public{uri}
+		reverse_proxy api:3300
+	}
 }
