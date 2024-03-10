@@ -15,8 +15,8 @@ public.luckypick.asia:80 {
 	}
 
 	# block other requests
-	handle_path /* {
-		@whitelist not host rapidapi.com
-		respond @whitelist 403
-	}
+	# handle_path /* {
+	# 	@whitelist not host rapidapi.com
+	# 	respond @whitelist 403
+	# }
 }
