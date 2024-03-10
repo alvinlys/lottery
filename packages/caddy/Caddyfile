@@ -1,0 +1,22 @@
+public.luckypick.asia:80 {
+	log {
+		output file /var/log/caddy/public.luckypick.asia-access.log
+	}
+
+	# health check
+	handle /ping {
+		respond "OK" 200
+	}
+
+	# swagger
+	handle_path / {
+		rewrite * /public
+		reverse_proxy api:3300
+	}
+
+	# block other requests
+	handle_path /* {
+		@whitelist not host rapidapi.com
+		respond @whitelist 403
+	}
+}

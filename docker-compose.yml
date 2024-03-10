@@ -14,13 +14,17 @@ services:
     container_name: caddy
     image: caddy:latest
     restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./packages/caddy
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./packages/caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+      - ./packages/caddy/log:/var/log/caddy
 
 volumes:
   caddy_data:
