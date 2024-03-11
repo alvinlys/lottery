@@ -1,22 +1,27 @@
 public.luckypick.asia:80 {
 	log {
 		output file /var/log/caddy/public.luckypick.asia-access.log
+		format console
 	}
 
-	# health check
+	# Health check
 	handle /ping {
-		respond "OK" 200
+		respond 200
 	}
 
-	# swagger
-	handle_path / {
-		rewrite * /public
-		reverse_proxy api:3300
-	}
+	# Only allow rapidapi header "X-Rapidapi-Proxy-Secret"
+    @whitelist {
+        header X-Rapidapi-Proxy-Secret {$RAPIDAPI_PROXY_SECRET}
+    }
+    handle @whitelist {
+        handle_path /* {
+            rewrite * /public{uri}
+            reverse_proxy api:3300
+        }
+    }
 
-	# block other requests
-	# handle_path /* {
-	# 	@whitelist not host rapidapi.com
-	# 	respond @whitelist 403
-	# }
+	# Block all other requests
+    handle {
+        respond 403
+    }
 }
