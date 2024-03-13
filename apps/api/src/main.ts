@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { EnvironmentVariables } from './common/config';
 import { Swagger } from './common/swagger';
 import { Winston } from './common/winston';
+import helmet from '@fastify/helmet';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
@@ -15,6 +16,7 @@ async function bootstrap(): Promise<void> {
   const port = <EnvironmentVariables['PORT']>app.get(ConfigService).get('PORT');
   const env = <EnvironmentVariables['NODE_ENV']>app.get(ConfigService).get('NODE_ENV');
 
+  await app.register(helmet);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true })); // allow validation at all routes
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.enableCors({
