@@ -5,7 +5,7 @@ import { PathItemObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.in
 
 // Swagger OpenAPI docs
 export class Swagger {
-  async init(app: NestFastifyApplication, port: number): Promise<void> {
+  static async init(app: NestFastifyApplication, port: number): Promise<void> {
     // CLI plugin (before SwaggerModule.createDocument)
     await SwaggerModule.loadPluginMetadata(metadata);
 

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { DrawDatesModule } from './draw-dates/draw-dates.module';
 import { CompaniesModule } from './companies/companies.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -25,5 +25,6 @@ import { CronModule } from './cron/cron.module';
     ResultsModule,
     CronModule,
   ],
+  providers: [Logger],
 })
 export class AppModule {}

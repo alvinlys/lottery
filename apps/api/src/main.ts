@@ -6,9 +6,12 @@ import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-cl
 import { ConfigService } from '@nestjs/config';
 import { EnvironmentVariables } from './common/config';
 import { Swagger } from './common/swagger';
+import { Winston } from './common/winston';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
+    logger: Winston.createLogger(),
+  });
   const port = <EnvironmentVariables['PORT']>app.get(ConfigService).get('PORT');
   const env = <EnvironmentVariables['NODE_ENV']>app.get(ConfigService).get('NODE_ENV');
 
@@ -22,7 +25,7 @@ async function bootstrap(): Promise<void> {
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   if (env === 'development') {
-    await new Swagger().init(app, port);
+    await Swagger.init(app, port);
   }
 
   // listen on all network interfaces by fastify
